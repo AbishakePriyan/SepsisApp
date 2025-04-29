@@ -9,12 +9,41 @@ function ManualPredict() {
     PRG: "", PL: "", PR: "", SK: "", TS: "", M11: "", BD2: "", Age: "", Insurance: ""
   });
 
+  const fieldPlaceholders = {
+    PRG: "Plasma Glucose",
+    PL: "Blood Work R1",
+    PR: "Blood Pressure",
+    SK: "Blood Work R2",
+    TS: "Blood Work R3",
+    M11: "Blood Work R4",
+    BD2: "Body Mass Index",
+    Age: "Age",
+    Insurance: "Insurance (Yes = 1 or No = 0)"
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    // Special validation for Insurance field
+    if (name === "Insurance") {
+      // Only allow 0, 1, or empty string (for backspace)
+      if (value === "" || (Number(value) >= 0 && Number(value) <= 1)) {
+        setFormData({ ...formData, [name]: value });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Additional validation for Insurance before submission
+    if (formData.Insurance !== "0" && formData.Insurance !== "1") {
+      toast.error("Insurance must be 0 or 1");
+      return;
+    }
+    
     try {
       const response = await predictSepsis(formData);
       localStorage.setItem("predictionResult", JSON.stringify(response.data));
@@ -39,9 +68,15 @@ function ManualPredict() {
               type="number"
               value={formData[field]}
               onChange={handleChange}
-              placeholder={field}
+              placeholder={fieldPlaceholders[field]}
               required
               className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              // Add min and max for Insurance field
+              {...(field === "Insurance" && { 
+                min: "0",
+                max: "1",
+                step: "1"
+              })}
             />
           ))}
           <button
