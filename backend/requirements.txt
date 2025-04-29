@@ -11,4 +11,3 @@ numpy
 imbalanced-learn
 gunicorn
 flask_cors
-sklearn
