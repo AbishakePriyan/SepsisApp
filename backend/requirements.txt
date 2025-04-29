@@ -10,3 +10,6 @@ Flask-SQLAlchemy
 numpy
 imbalanced-learn
 gunicorn
+flask_cors
+traceback
+sklearn
