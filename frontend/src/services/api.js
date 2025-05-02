@@ -1,7 +1,7 @@
 import axios from "axios";
 
-//const API_URL = "https://sepsis-early-prediction-system.onrender.com/api";
-const API_URL = "http://localhost:5000/api"; // Adjust if deployed
+const API_URL = "https://sepsis-early-prediction-system.onrender.com/api";
+//const API_URL = "http://localhost:5000/api"; // Adjust if deployed
 
 export const predictSepsis = async (data) => {
   return await axios.post(`${API_URL}/predict`, data);

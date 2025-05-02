@@ -49,7 +49,7 @@ function BatchPredict() {
         formData.append('file', file);
 
         try {
-          const resp = await fetch('http://localhost:5000/api/batch-predict', {
+          const resp = await fetch('https://sepsis-early-prediction-system.onrender.com/api/batch-predict', {
             method: 'POST',
             body: formData,
           });
