@@ -48,6 +48,7 @@ function ManualPredict() {
       const response = await predictSepsis(formData);
       localStorage.setItem("predictionResult", JSON.stringify(response.data));
       toast.success("Prediction Successful!");
+      localStorage.setItem("inputData", JSON.stringify(formData));
       navigate("/result");
     } catch (error) {
       toast.error("Prediction Failed!");

@@ -35,7 +35,6 @@ else:
 
 class MockModel:
     def predict(self, X):
-        # Dummy prediction logic
         return [(1 if (row['PR'] == 0 or row['M11'] > 30) else 0) for _, row in X.iterrows()]
 
 model = MockModel()
@@ -48,7 +47,6 @@ def api_predict():
 
     try:
         data = request.json
-        # Ensure the order matches your training FEATURES list
         input_data = np.array([[data["PRG"], data["PL"], data["PR"], data["SK"], data["TS"], data["M11"], data["BD2"], data["Age"], data["Insurance"]]])
         print("Raw Input Data:", input_data)
 
@@ -58,7 +56,7 @@ def api_predict():
         probabilities = models.predict_proba(input_scaled)[0]
         print("Prediction Probabilities:", probabilities)
 
-        # Experiment with threshold - adjust from 0.5 to a lower value if needed
+        #adjust from 0.5 to a lower value if needed
         threshold = 0.4
         prediction = 1 if probabilities[1] > threshold else 0
         print("Final Prediction (with threshold = {}):".format(threshold), prediction)
@@ -120,5 +118,5 @@ def api_feedback():
 # Initialize the database and run the app
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # Create tables if they do not exist
+        db.create_all() 
     app.run(debug=True, port=5000)
